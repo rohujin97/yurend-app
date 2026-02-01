@@ -1,0 +1,97 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+
+export default function LoginPage() {
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: 실제 로그인 API 연동
+    console.log("로그인 시도:", { userId, password });
+    console.log("로그인 시작");
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 dark:bg-zinc-950">
+      <div className="w-full max-w-md">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+          <h1 className="mb-2 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+            로그인
+          </h1>
+          <p className="mb-8 text-sm text-zinc-500 dark:text-zinc-400">
+            아이디와 비밀번호를 입력해 주세요.
+          </p>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <div>
+              <label
+                htmlFor="userId"
+                className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              >
+                아이디
+              </label>
+              <input
+                id="userId"
+                type="text"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+                placeholder="아이디를 입력하세요"
+                required
+                autoComplete="username"
+                className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-zinc-500 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-zinc-500 dark:focus:ring-zinc-700"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+              >
+                비밀번호
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="비밀번호를 입력하세요"
+                required
+                autoComplete="current-password"
+                className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-zinc-900 placeholder-zinc-400 outline-none transition focus:border-zinc-500 focus:ring-2 focus:ring-zinc-200 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-zinc-500 dark:focus:ring-zinc-700"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="mt-2 rounded-lg bg-zinc-900 py-3 font-medium text-white transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            >
+              로그인
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
+            계정이 없으신가요?{" "}
+            <Link
+              href="/signup"
+              className="font-medium text-zinc-900 underline underline-offset-2 hover:no-underline dark:text-zinc-100"
+            >
+              회원가입
+            </Link>
+          </p>
+        </div>
+
+        <p className="mt-6 text-center">
+          <Link
+            href="/"
+            className="text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
+          >
+            ← 홈으로
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}
