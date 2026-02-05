@@ -3,23 +3,35 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { apiFetch } from "@/app/client/apiClient"
+
 export default function SignupPage() {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
-  const [userId, setUserId] = useState("");
+  const [id, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: 실제 회원가입 API 연동
-    console.log("회원가입 시도:", {
+    const request = {
       name,
       age: Number(age),
       gender,
-      userId,
+      id,
       password,
-    });
+    }
+
+    try {
+      apiFetch(`/user-api/sign-up`, {
+        method: "POST",
+        body: JSON.stringify(request)
+      })
+      console.log("회원가입 성공", request);
+    } catch (error) {
+      console.log("회원가입 실패: ", error);
+    }
   };
 
   return (
@@ -96,7 +108,7 @@ export default function SignupPage() {
 
             <div>
               <label
-                htmlFor="userId"
+                htmlFor="id"
                 className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300"
               >
                 아이디
@@ -104,7 +116,7 @@ export default function SignupPage() {
               <input
                 id="userId"
                 type="text"
-                value={userId}
+                value={id}
                 onChange={(e) => setUserId(e.target.value)}
                 placeholder="사용할 아이디를 입력하세요"
                 required
