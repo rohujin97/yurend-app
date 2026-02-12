@@ -11,7 +11,7 @@ type RequestOptions = RequestInit & {
 export async function apiFetch<T>(
   path: string,
   options: RequestOptions = {}
-): Promise<T> {
+): Promise<T | null> {
   const { params, ...fetchOptions } = options;
 
   const query = params
@@ -22,7 +22,7 @@ export async function apiFetch<T>(
     : "";
 
   const res = await fetch(`${BASE_URL}${path}${query}`, {
-    credentials: "include", // 쿠키 쓰면 중요
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       ...options.headers,
@@ -35,5 +35,12 @@ export async function apiFetch<T>(
     throw new Error(error);
   }
 
-  return res.json();
+  // 🔥 body가 있는 경우만 json 파싱
+  const contentType = res.headers.get("content-type");
+
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  }
+
+  return null;
 }

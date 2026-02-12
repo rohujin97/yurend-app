@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { apiFetch } from "@/app/client/apiClient"
 
@@ -11,8 +12,9 @@ export default function SignupPage() {
   const [gender, setGender] = useState("");
   const [id, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: 실제 회원가입 API 연동
     const request = {
@@ -24,11 +26,12 @@ export default function SignupPage() {
     }
 
     try {
-      apiFetch(`/user-api/sign-up`, {
+      await apiFetch(`/user-api/sign-up`, {
         method: "POST",
         body: JSON.stringify(request)
-      })
-      console.log("회원가입 성공", request);
+      })      
+      alert("회원가입이 완료되었습니다!");
+      router.push("/login");
     } catch (error) {
       console.log("회원가입 실패: ", error);
     }
